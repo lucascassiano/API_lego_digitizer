@@ -1,0 +1,193 @@
+<!DOCTYPE HTML>
+<!--
+	Read Only by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Lego Digitizer Table- API</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+        <!--Theme for Code-->
+        <link href="/assets/css/themes/zenburnesque.css" rel="stylesheet" type="text/css">
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->       <script src="assets/js/rainbow-custom.min.js"></script>
+            
+	</head>
+	<body>
+
+		<!-- Header -->
+			<section id="header">
+				<header>
+					<h1 id="logo"><a href="#">Lego Digitizer Table</a></h1>
+					<p>A lego based TUI connected with Untiy
+					</p>
+				</header>
+				<nav id="nav">
+					<ul>
+						<li><a href="#one" class="active">About</a></li>
+						<li><a href="#getStarted">Get started</a></li>
+                        <li><a href="#codeStructure">Code Structure</a></li>
+                        <li><a href="#arduinoCode">Arduino Code</a></li>
+                        <li><a href="#debugMode">Debug Mode</a></li>
+                        <li><a href="#help">Contact us</a></li>
+					</ul>
+				</nav>
+				<footer>
+					
+                <p>cassiano@mit.edu <br/> MIT - Media lab <br> Changing Places</p>
+					
+				</footer>
+			</section>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- One -->
+							<section id="one">
+								<div class="container">
+									<header class="major">
+										<h2>LEGO Digitizer API 1.1</h2>
+                                        <p>API Documentation for Unity- Lego Digitizer table connection</p>
+									</header>
+									<p>This API was designed for Prototype 8 table. Developed in August 2015 at MIT-Media Lab - Changing Places group.</p>
+								</div>
+							</section>
+
+                        <!-- Get Started -->
+							<section id="getStarted">
+								<div class="container">
+									<header class="major">
+										<h2>Get Started</h2>
+                                        <p>API Documentation for Unity- Lego Digitizer table connection</p>
+									</header>
+                                    <p>Follow the step-by-step bellow to use this API into your unity project:</p>
+                                    <ul>
+                                        <li>Download the unity package (bellow) and import it for your unity (version 4.0+) project;</li><br>
+                                                                            <center>
+                                     <a href="API_1_1_DebugMode.unitypackage" target="_blank"><input type = "button" class="special big"  value="Download Unity Package"> </input></a></center><br>
+                                        <li>After that create a empty game object and name it "grid":</li>
+                                        <li>Drag and drop the "Grid.cs" code into this object. This is going to be the Grid Control of your program;</li>
+                                        <li>Connect the USB cable from the Prototype 8 on your computer, and on the Grid Control define the <i>Port Name</i> variable with the respective serial port name, on windows it will be somthing like "COM 3";</li>
+                                        <li>After that you just need to create an class to interact with the Grid class on the way you want to, as you can see on the Test.cs example bellow:</li>
+                                    </ul>
+             <pre><code data-language="C#">
+using UnityEngine;
+using System.Collections;
+
+public class Test : MonoBehaviour {
+
+    public Grid grid;
+
+    void Start ()
+    {
+        grid.Open(); //starts connection with table
+    }
+	
+    void Update ()
+    {
+        int[,] myGrid = grid.getGrid();
+        if(myGrid[0,0] == 1)
+        {
+            //There is one cube on position X=0, Y=0;
+        }
+    }
+
+}
+                                    </code></pre>
+                                    <p>It just needs to treat the grid output as an 2D array with the number of blocks on each position</p>
+								</div>
+							</section>
+
+						<!-- Code Structure -->
+							<section id="codeStructure">
+								<div class="container">
+									<header class="major">
+										<h3>Code Structure</h3>
+										<img src="images/class_uml.jpg" width="100%">
+									</header>
+									<p>The API requires the .Net 2.0 (no Subset) framework to works, due to the fact it uses System.IO classes to stablish a serial connection. The basis class is called TUI (stands for Tangible User Interface) and handles most of the Serial connection part. Grid is the top level class and the most used for programming with this api.</p>
+                                <p><span class="fa fa-exclamation-triangle"></span> <b>Make sure you are using .NET 2.0 </b>. To select .NET 2.0 (no Subset) go to: <i>"File > Build Settings > Player Settings > Optimization > API compatiblity level"</i> and select .NET 2.0, reimport all codes related to this API. </p></div>
+							</section>
+                        
+     
+						<!-- Arduino Code-->
+							<section id="arduinoCode">
+								<div class="container">
+									<h3>Arduino Code</h3>
+									<p>This ist the last firmware developed for prototype 8 - it's compatible with Arduino UNO (Atmega 328 chipset).</p>
+                                    <a href="arduino_code.ino" target="_blank"><input type = "button" class="special"  value="Get Arduino Code"> </input></a>
+                                    							
+								</div>
+							</section>
+                        
+						<!-- Debug Mode-->
+							<section id="debugMode">
+								<div class="container">
+									<header class="major">
+										<h3>Debug Mode</h3>
+                                        <p>This mode is useful when you do not have a physical table connected with your computer. On this mode the API allows the programmer to simulate the output values from a table.</p>
+										<img src="images/debugMode.jpg" width="100%">
+									</header>
+									<p>To use this mode select the option <i>Debug Mode</i><b>[1]</b> on your Grid Control objetc. you can run the project and change the amount of blocks on each position filling the provided fields <b>[2]</b>. When you finish editing the grid values just click on <i>Apply Changes</i> <b>[3]</b> and the API will update the internal <i>grid</i> variable. Use the top level class Grid as described previously on this page</p>
+                                <p><span class="fa fa-exclamation-triangle"></span> <b>Make sure you are using .NET 2.0 </b>. To select .NET 2.0 (no Subset) go to: <i>"File > Build Settings > Player Settings > Optimization > API compatiblity level"</i> and select .NET 2.0, reimport all codes related to this API. </p></div>
+							</section>
+
+						<!-- Three -->
+							<section id="experiments">
+								<div class="container">
+									<h3>Experiments</h3>
+									<p>Unstable experiments made over this API</p>
+									<div class="features">
+										<article>
+											<a href="#" class="image"><img src="images/experiment0.jpg" alt="" /></a>
+											<div class="inner">
+												<h4>Multiple ID Grid</h4>
+												<p>This version works reading different resistances of colored Lego blocks. This way the API can identify which kind of ID is placed at the grid. The current alpha version works only in two dimentions.</p>
+                                                <a href="Grid_colors.cs" target="_blank"><input type = "button" class="special"  value="Get alpha version of Grid_color.cs"> </input></a>
+											</div>
+										</article>
+										
+									</div>
+								</div>
+							</section>
+
+						<!-- Four -->
+							<section id="help">
+								<div class="container">
+									<h3>Contact the Developer</h3>
+									<p>If you need any help or want to give us you can email one of the developers:<br>
+                                    cassiano@mit.edu</p>
+									
+							</section>
+                                           
+
+					</div>
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="container">
+							<ul class="copyright">
+								<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollzer.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+            <script src="assets/js/rainbow.min.js"></script>
+	</body>
+</html>
